@@ -820,10 +820,8 @@ Welcome to Seerr
 Set Language & Region for Discovery Feed
 
 - Go to Settings
-- Discover Region
-  - Click the dropdown and select `United States`
-- Discover Language
-  - Click the dropdown and select `English`
+- Set "Discover Region" to `United States`
+- Set "Discover Language" to `English`
 - Scroll to the bottom and click `Save Changes`
 
 ### Configure Services
