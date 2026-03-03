@@ -817,12 +817,14 @@ Welcome to Seerr
 - Click `Start Scan`
 - Scroll to the bottom and click `Continue`
 
-Set Language for Discovery Feed
+Set Language & Region for Discovery Feed
 
-- Settings > Discover Language
-- Click the dropdown and select `English`
+- Go to Settings
+- Discover Region
+  - Click the dropdown and select `United States`
+- Discover Language
+  - Click the dropdown and select `English`
 - Scroll to the bottom and click `Save Changes`
-
 
 ### Configure Services
 
