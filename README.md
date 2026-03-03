@@ -134,22 +134,41 @@ Keeping images up-to-date
 
 Updating Dockhand
 
-- These commands will update Dockhand and remove the old image afterwards
+- These commands will update Dockhand and remove the old image
 ```
-sudo docker pull fnsys/dockhand:latest; \
 sudo docker stop dockhand; \
 sudo docker rm dockhand; \
+sudo docker rmi fnsys/dockhand:latest; \
+sudo docker pull fnsys/dockhand:latest; \
 sudo docker run -d \
   --name dockhand \
   --restart unless-stopped \
   -p 3000:3000 \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v dockhand_data:/app/data \
-  fnsys/dockhand:latest; \
-sudo docker image prune -f -a;
+  fnsys/dockhand:latest;
 ```
 
-<!-- To do: document Dockhand self update -->
+<!-- sudo docker image prune -f -a; -->
+<!-- Dockhand self update work-in-progress, seems to stall out currently
+- On the Containers tab, click `Check for updates` to see if there are any image updates available
+- If a Dockhand update is available, navigate to Settings > About
+- Click the yellow `Update available` text and then `Update Now`
+- Wait for the update to finish
+-->
+<!-- Workaround to broken Dockhand v1.0.19+
+sudo docker stop dockhand; \
+sudo docker rm dockhand; \
+sudo docker rmi fnsys/dockhand:latest; \
+sudo docker pull fnsys/dockhand:v1.0.18; \
+sudo docker run -d \
+  --name dockhand \
+  --restart unless-stopped \
+  -p 3000:3000 \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v dockhand_data:/app/data \
+  fnsys/dockhand:v1.0.18;
+-->
 
 ## Building the Stack
 Pre-pull the docker images to speed up building the stack
@@ -336,10 +355,12 @@ Disable Telemetry
 - Uncheck `Send Anonymous Usage Data`
 - Click `Save Changes` at the top
 
+<!--
 Configure Minimum Seeders
 
 - Settings > Apps > Sync Profiles > Standard
 - Increase "Minimum Seeders" to `3` or greater
+-->
 
 FlareSolverr
 
@@ -356,7 +377,6 @@ Add Indexers
   - If you are the author, check the Prowlarr-Indexer-List file
 - You can use these filters to help find available public trackers
   - Protocol: `torrent`
-  - Language: `en-US`
   - Privacy: `Public`
 - After configuring an indexer, click `Test` and then `Save`
 
@@ -797,6 +817,13 @@ Welcome to Seerr
 - Click `Start Scan`
 - Scroll to the bottom and click `Continue`
 
+Set Language for Discovery Feed
+
+- Settings > Discover Language
+- Click the dropdown and select `English`
+- Scroll to the bottom and click `Save Changes`
+
+
 ### Configure Services
 
 Radarr
@@ -839,7 +866,7 @@ To connect to the network share, enter: `\\192.168.0.2\Data` in Windows Explorer
 
 For Macintosh or Linux use `smb://server/share`
 
-<!--
+<!-- Scratch notes
 ## Troubleshooting
 episode downloads not being manaaged or monitored correctly in Sonarr
 - Stop and start the stack in dockhand and then check invalid downloads in activity
