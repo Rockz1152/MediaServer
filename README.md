@@ -81,11 +81,11 @@ cd /path/to/storage
 ```
 mkdir -p data/config/{jellyfin-cache,jellyfin-config}; \
 mkdir -p data/downloads/; \
-mkdir -p data/media/{movies,shows}
+mkdir -p data/media/{movies,shows};
 ```
 
 > [!NOTE]
-> Ensure your user is the owner of the data directory and it's sub folders.
+> Ensure your user is the owner of the `data` directory and it's sub folders.
 >
 > You may need to use `sudo chown <username>:<username> -R data` to take ownership of the files.
 >
@@ -124,6 +124,7 @@ Click `Go to Settings` to configure your local environment
 ### Updates
 Keeping images up-to-date
 
+<!-- Method may be changing after new 'pull images and retart stack' option is added -->
 - On the Containers tab, click `Check for updates` to see if there are any image updates available
 - If updates are available go to the Stacks tab, under Actions for your stack click the square `Stop` button and confirm
 - Back on the Containers tab, click `Update all` and wait for the images to update
@@ -155,19 +156,6 @@ sudo docker run -d \
 - If a Dockhand update is available, navigate to Settings > About
 - Click the yellow `Update available` text and then `Update Now`
 - Wait for the update to finish
--->
-<!-- Workaround to broken Dockhand v1.0.19+
-sudo docker stop dockhand; \
-sudo docker rm dockhand; \
-sudo docker rmi fnsys/dockhand:latest; \
-sudo docker pull fnsys/dockhand:v1.0.18; \
-sudo docker run -d \
-  --name dockhand \
-  --restart unless-stopped \
-  -p 3000:3000 \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  -v dockhand_data:/app/data \
-  fnsys/dockhand:v1.0.18;
 -->
 
 ## Building the Stack
