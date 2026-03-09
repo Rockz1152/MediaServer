@@ -108,6 +108,9 @@ lsblk
 
 Format with ext4
 
+> [!NOTE]
+> While it is possible to use exFAT or NTFS on the external drive, it's recommended to use `ext4` for stability and compatibility.
+
 - You can choose between a quick format or a full format
 - A full format is better for larger drives but takes about 10-15 minutes to complete
 
