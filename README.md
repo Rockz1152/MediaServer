@@ -355,6 +355,12 @@ Disable Telemetry
 - Uncheck `Send Anonymous Usage Data`
 - Click `Save Changes` at the top
 
+Set Log Level
+
+- Settings > General > Logging
+- Set "Log Level" to `Info`
+- Click `Save Changes` at the top
+
 <!--
 Configure Minimum Seeders
 
