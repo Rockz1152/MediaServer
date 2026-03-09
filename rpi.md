@@ -87,38 +87,34 @@ sudo netplan apply; sudo reboot
 ```
 
 ## Mount a USB Drive
-
-### Use an existing filesystem
-Determine filesystem of drive
-```
-lsblk; sudo blkid /dev/sdX#
-```
-
-- Example output
-  - `/dev/sda1: LABEL="My Passport" UUID="8A2CF4F62CF4DE5F" TYPE="ntfs" PTTYPE="atari" PARTUUID="00042ada-01"`
-  - Make note of the values for `UUID` and `Type`
-
-Install appropriate files to read drive
-
-- NTFS `sudo apt install ntfs-3g`
-- exFAT `sudo apt install exfat-fuse`
-
-### Format the external drive instead
-Install exFAT driver
-```
-sudo apt install exfat-fuse
-```
-
 Partition the drive
+
+- You only need to re-partition the drive if it contains more than one partition
+- Run `lsblk` to inspect the drive layout
+```
+lsblk
+```
+- If you see more than one partition under the disk, proceed to remove them with `cfdisk` and create a single one in their place. Don't worry about the filesystem yet
 ```
 sudo cfdisk /dev/sdX
 ```
 
-- Just remove the current partition and create a new one, don't worry about the filesystem yet
-
-Format with exFAT
+Verify drive layout
 ```
-sudo mkfs.exfat /dev/sdX#
+lsblk
+```
+
+- Make note of the partition number, should just be a `1` for single partition disks
+
+Format with ext4
+
+- Quick format with background initialization
+```
+sudo mkfs.ext4 /dev/sdX#
+```
+- Full format, better for larger drives but takes about 10-15 minutes to complete
+```
+sudo mkfs.ext4 -E lazy_itable_init=0,lazy_journal_init=0 /dev/sdX#
 ```
 
 Find the `UUID` of the partition and make note of it
@@ -139,18 +135,11 @@ sudo nano /etc/fstab
 ```
 
 Add to the bottom:
+```
+UUID=[UUID] /mnt/usb1 ext4 defaults,nofail,noatime 0 0
+```
 
-- NTFS or ext4 
-```
-UUID=[UUID] /mnt/usb1 [filesystem] defaults,nofail,noatime 0 0
-```
-- exFAT
-```
-UUID=[UUID] /mnt/usb1 exfat defaults,nofail,noatime,uid=1000,gid=1000,umask=007 0 0
-```
--
-  - Substitute the `[UUID]`value for the one from `sudo blkid /dev/sdXX`, and `[filesystem]` as well
-  - For exFAT, substitute `1000` in `uid` and `gid` with your user's from `id`
+- Substitute the `[UUID]`value for the one from `sudo blkid /dev/sdXX`
 
 Reload systemd
 ```
@@ -171,3 +160,8 @@ Reboot the system
 ```
 sudo reboot
 ```
+
+<!--
+Enable Linger?
+loginctl enable-linger
+-->
