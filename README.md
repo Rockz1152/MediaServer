@@ -414,6 +414,12 @@ Disable Telemetry
 - Uncheck `Send Anonymous Usage Data`
 - Click `Save Changes` at the top
 
+Set Log Level
+
+- Settings > General > Logging
+- Set "Log Level" to `Info`
+- Click `Save Changes` at the top
+
 Connect to Prowlarr
 
 - Settings > General > Security
@@ -530,6 +536,12 @@ Disable Telemetry
 
 - Settings > General > Analytics
 - Uncheck `Send Anonymous Usage Data`
+- Click `Save Changes` at the top
+
+Set Log Level
+
+- Settings > General > Logging
+- Set "Log Level" to `Info`
 - Click `Save Changes` at the top
 
 Connect to Prowlarr
