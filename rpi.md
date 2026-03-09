@@ -104,11 +104,12 @@ Verify drive layout
 lsblk
 ```
 
-- Make note of the partition number, should just be a `1` for single partition disks
+- Make note of the partition number, should just be `1` for single partition disks
 
 Format with ext4
 
 - You can choose between a quick format or a full format
+- A full format is better for larger drives but takes about 10-15 minutes to complete
 
 | Type   | Command                                                              |
 |--------|----------------------------------------------------------------------|
