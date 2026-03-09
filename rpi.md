@@ -94,7 +94,7 @@ Partition the drive
 ```
 lsblk
 ```
-- If you see more than one partition under the disk, proceed to remove them with `cfdisk` and create a single one in their place. Don't worry about the filesystem yet
+- If you see more than one partition under the disk, proceed to remove them with `cfdisk` and create a single partition in their place. Don't worry about the filesystem yet
 ```
 sudo cfdisk /dev/sdX
 ```
@@ -108,14 +108,12 @@ lsblk
 
 Format with ext4
 
-- Quick format with background initialization
-```
-sudo mkfs.ext4 /dev/sdX#
-```
-- Full format, better for larger drives but takes about 10-15 minutes to complete
-```
-sudo mkfs.ext4 -E lazy_itable_init=0,lazy_journal_init=0 /dev/sdX#
-```
+- You can choose between a quick format or a full format
+
+| Type   | Command                                                              |
+|--------|----------------------------------------------------------------------|
+| Quick  | `sudo mkfs.ext4 /dev/sdX#`                                           |
+| Full   | `sudo mkfs.ext4 -E lazy_itable_init=0,lazy_journal_init=0 /dev/sdX#` |
 
 Find the `UUID` of the partition and make note of it
 ```
@@ -139,7 +137,7 @@ Add to the bottom:
 UUID=[UUID] /mnt/usb1 ext4 defaults,nofail,noatime 0 0
 ```
 
-- Substitute the `[UUID]`value for the one from `sudo blkid /dev/sdXX`
+- Substitute the `[UUID]`value for the one from `sudo blkid /dev/sdX#`
 
 Reload systemd
 ```
