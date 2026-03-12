@@ -247,6 +247,10 @@ Setup your media libraries
   - If you don't plan on the server being remotely accessible uncheck `Allow remote connections to this server.` otherwise click `Next`
 - Click `Finish`
 
+<!--
+add hardware acceleration notes
+-->
+
 How to create New Users
 
 - On the left under "Server" click `Users`
@@ -256,6 +260,11 @@ How to create New Users
 - Click `Save`
 - To make this user an admin, check `Allow this user to manage the server`
   - _*Only give this permission to users you trust!_
+
+### User Specific Settings
+
+> [!NOTE]
+> These settings will need to be set on a per user basis
 
 Disable pagination in the web view
 
@@ -276,10 +285,6 @@ Configure Subtitles
 - Set "Preferred subtitle language" to `English`
 - If you want Subtitles off by default set "Subtitle mode" to `None`
 - Scroll to the bottom and click `Save`
-
-<!--
-add hardware acceleration notes
--->
 
 ## qBittorrent
 Port: `8080`
