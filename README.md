@@ -84,7 +84,7 @@ mkdir -p data/downloads/; \
 mkdir -p data/media/{movies,shows};
 ```
 
-> [!NOTE]
+> [!WARNING]
 > Ensure your user is the owner of the `data` directory and it's sub folders.
 >
 > You may need to use `sudo chown <username>:<username> -R data` to take ownership of the files.
@@ -247,18 +247,39 @@ Setup your media libraries
   - If you don't plan on the server being remotely accessible uncheck `Allow remote connections to this server.` otherwise click `Next`
 - Click `Finish`
 
-Set Default Audio
+How to create New Users
+
+- On the left under "Server" click `Users`
+- Click the `+` next to "Users"
+- Give the user a simple name and password. e.g. `john`
+- Under "Library Access", check `Enable access to all libraries`
+- Click `Save`
+- To make this user an admin, check `Allow this user to manage the server`
+  - _*Only give this permission to users you trust!_
+
+Disable pagination in the web view
+
+- User Profile > Display > Scroll down to Libraries
+- For "Library page size:" set the value to `0`
+- Click `Save` at the bottom
+
+Configure Default Audio
 
 - User Profile > Playback > Audio Settings
 - Set "Preferred audio language" to `English`
 - Uncheck `Play default audio track regardless of language`
 - Scroll to the bottom and click `Save`
 
-Disable pagination in the web view
+Configure Subtitles
 
-- User Profile > Display
-- Scroll down to "Library page size:" and set the value to `0`
-- Click `Save` at the bottom
+- User Profile > Subtitles
+- Set "Preferred subtitle language" to `English`
+- If you want Subtitles off by default set "Subtitle mode" to `None`
+- Scroll to the bottom and click `Save`
+
+<!--
+add hardware acceleration notes
+-->
 
 ## qBittorrent
 Port: `8080`
@@ -823,13 +844,6 @@ Welcome to Seerr
 - Click `Start Scan`
 - Scroll to the bottom and click `Continue`
 
-Set Language & Region for Discovery Feed
-
-- Go to Settings
-- Set "Discover Region" to `United States`
-- Set "Discover Language" to `English`
-- Scroll to the bottom and click `Save Changes`
-
 ### Configure Services
 
 Radarr
@@ -863,6 +877,30 @@ Sonarr
 - Check `Season Folders`
 - Click `Add Server`
 - Click `Finish Setup`
+
+### Finish Configuration
+
+Set Language & Region for Discovery Feed
+
+- Go to Settings > General
+- Set "Discover Region" to `United States`
+- Set "Discover Language" to `English`
+- Scroll to the bottom and click `Save Changes`
+
+Setup User Permissions
+
+- Go to Settings > Users
+- Find "Default Permissions" and check the following items beneath it:
+  - Advanced Requests
+  - View Requests
+  - View Recently Added
+  - Request
+  - Auto-approve
+  - Manage Issues
+- Click `Save Changes`
+- These permissions will apply to new users when they are imported from Jellyfin
+  - Any existing non-admin users will need their permissions manually adjusted
+  - This can be done on the Users page located on the left navigation bar
 
 ## Samba
 To connect to the network share, enter: `\\192.168.0.2\Data` in Windows Explorer and then enter the configured Username and Password you set in the environment file
