@@ -135,7 +135,13 @@ Keeping images up-to-date
 
 Updating Dockhand
 
-- These commands will update Dockhand and remove the old image
+- On the Containers tab, click `Check for updates` to see if there are any image updates available
+- If a Dockhand update is available, navigate to Settings > About
+- Click the yellow `Update available` text and then `Update Now`
+- Wait for the update to finish and click `Reload`
+- After the reload, go to the Images tab then click `Prune unused` and confirm
+
+As a fallback to the built-in updater in the event it fails and Dockhand is not accessible, you can use these commands to update and remove the old image
 ```
 sudo docker stop dockhand; \
 sudo docker rm dockhand; \
@@ -151,12 +157,6 @@ sudo docker run -d \
 ```
 
 <!-- sudo docker image prune -f -a; -->
-<!-- Dockhand self update work-in-progress, seems to stall out currently
-- On the Containers tab, click `Check for updates` to see if there are any image updates available
-- If a Dockhand update is available, navigate to Settings > About
-- Click the yellow `Update available` text and then `Update Now`
-- Wait for the update to finish
--->
 
 ## Building the Stack
 Pre-pull the docker images to speed up building the stack
@@ -921,6 +921,10 @@ episode downloads not being manaaged or monitored correctly in Sonarr
 - Stop and start the stack in dockhand and then check invalid downloads in activity
 
 ## future add-ons
+Usenet
+NZBGet
+https://www.reddit.com/r/usenet/comments/18q7r0f/usenet_starter_guide/
+
 Profilarr - High Quality Profiles but massive media sizes
 - https://www.youtube.com/watch?v=u1FQNMsuzFc
 - https://www.youtube.com/watch?v=TFG6A1d2C2c
