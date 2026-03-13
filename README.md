@@ -156,8 +156,6 @@ sudo docker run -d \
   fnsys/dockhand:latest;
 ```
 
-<!-- sudo docker image prune -f -a; -->
-
 ## Building the Stack
 Pre-pull the docker images to speed up building the stack
 ```
@@ -608,11 +606,6 @@ Set Quality Settings
 
 
 ### Setup Custom Formats
-<!--
-RegEx for x264 and x265
-(((x|h)\\.?(264|265))|(HEVC))
--->
-
 Import Custom Format Presets
 
 - Navigate to Settings > Custom Formats > [+]
@@ -921,10 +914,6 @@ episode downloads not being manaaged or monitored correctly in Sonarr
 - Stop and start the stack in dockhand and then check invalid downloads in activity
 
 ## future add-ons
-Usenet
-NZBGet
-https://www.reddit.com/r/usenet/comments/18q7r0f/usenet_starter_guide/
-
 Profilarr - High Quality Profiles but massive media sizes
 - https://www.youtube.com/watch?v=u1FQNMsuzFc
 - https://www.youtube.com/watch?v=TFG6A1d2C2c
@@ -932,5 +921,9 @@ Profilarr - High Quality Profiles but massive media sizes
 Homer - A dashboard to easily get to all services?
 Tdarr - Convert media and never worry about file sizes
 
+RegEx for x264 and x265
+(((x|h)\\.?(264|265))|(HEVC))
+
 sudo docker stop $(sudo docker ps -a -q)
+sudo docker image prune -f -a
 -->
