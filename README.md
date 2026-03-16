@@ -12,6 +12,7 @@
 1. [Radarr](#radarr)
 1. [Sonarr](#sonarr)
 1. [Bazarr](#bazarr)
+1. [Cleanuparr](#cleanuparr)
 1. [Seerr](#seerr)
 1. [Samba](#samba)
 
@@ -28,6 +29,7 @@ This media stack contains the following applications
 - Radarr - A utility for locating Movies within your indexer and sending the requests to your download application
 - Sonarr - Same as Radarr but for TV Shows
 - Bazarr - Integrates with Sonarr and Radarr to download subtitles for Movies and Shows
+- Cleanuparr - A tool for automating the cleanup of unwanted or blocked files in Sonarr, Radarr, and download clients like qBittorrent
 - Samba - This allows network access to the media library and container configs using the SMB/CIFS protocol
 
 ### Additional Resources
@@ -36,6 +38,7 @@ This media stack contains the following applications
 - Setup Guide from KL Tech - https://www.youtube.com/watch?v=QfpZcXXGpVA
 - Setup Guide from TechHut - https://www.youtube.com/watch?v=twJDyoj0tDc
 - Bazarr Setup Guide from AlienTech42 - https://www.youtube.com/watch?v=8vZ95HOdT-I
+- Cleanuparr Setup Guide from AlienTech42 - https://www.youtube.com/watch?v=ckb9fytNkYo
 - Guides for Quality Profiles - https://github.com/TRaSH-Guides/Guides
 
 ## Server Setup
@@ -167,6 +170,7 @@ sudo docker pull ghcr.io/flaresolverr/flaresolverr; \
 sudo docker pull ghcr.io/linuxserver/radarr; \
 sudo docker pull ghcr.io/linuxserver/sonarr; \
 sudo docker pull ghcr.io/linuxserver/bazarr; \
+sudo docker pull ghcr.io/cleanuparr/cleanuparr; \
 sudo docker pull ghcr.io/seerr-team/seerr; \
 sudo docker pull ghcr.io/dockur/samba;
 ```
@@ -294,6 +298,11 @@ The WebUI administrator password was not set. A temporary password is provided f
 You should set your own password in program preferences.
 ```
 
+- If you are having trouble locating the container logs, this command should show what you are looking for
+```
+sudo docker logs $(sudo docker ps -q --filter "name=qbitt")
+```
+
 After logging in, you should set your own password
 
 - Tools > Options > WebUI
@@ -305,6 +314,8 @@ Configure Downloads
 - Tools > Options > Downloads
 - Set Default Download Location
   - Set "Default Save Path" to `/data/downloads`
+
+<!-- Now synced from Cleanuparr
 - Block Bad File Types
   - Check `Excluded file names` and paste the following in the box underneath
 ```
@@ -319,6 +330,7 @@ Configure Downloads
 *.tar.gz
 *.gz
 ```
+-->
 
 Configure Bandwidth
 
@@ -828,6 +840,159 @@ Search for Missing Subtitles
 - At the top of each list click `Search All`
 - Subtitles will be saved with the media
 
+## Cleanuparr
+Port: `11011`
+
+Configure Prowlarr to support Cleanuparr
+
+- Go to Prowlarr
+- Navigate to Settings > Apps
+- Enable advanced settings by clicking on Show Advanced
+- Edit Radarr and Sonarr
+- Enable `Sync Reject Blocklisted Torrent Hashes While Grabbing`
+- Click `Test All Apps` and then `Sync App Indexers`
+
+Configure Basic Settings
+
+- Open Cleanuparr in browser
+- Setup a Username and Password
+- For "Two-Factor Authentication" select `Skip for now`
+- Click `Complete Setup`
+- Log and got to Settings > General
+- Toggle off `Display Support Banner`
+- Click `Save Settings`
+
+### Connect Apps
+Radarr
+
+- On the left under "Media Apps" select `Radarr` and then click `Add Instance`
+- Fill in the connect information:
+  - Name: `Radarr`
+  - URL: `http://localhost:7878`
+- Retrieve your Radarr API key
+  - In Radarr go to Settings > General > Security
+  - Copy the `API Key`
+  - Go back to Cleanuparr and paste the Key under `API Key`
+- Click `Test` and then `Save`
+
+Sonarr
+
+- On the left under "Media Apps" select `Sonarr` and then click `Add Instance`
+- Fill in the connect information:
+  - Name: `Sonarr`
+  - URL: `http://localhost:8989`
+- Retrieve your Sonarr API key
+  - In Sonarr go to Settings > General > Security
+  - Copy the `API Key`
+  - Go back to Cleanuparr and paste the Key under `API Key`
+- Click `Test` and then `Save`
+
+qBittorrent
+
+- On the left under "Media Apps" select `Download Clients` and then click `Add Client`
+- Fill in the connect information:
+  - Name: `qBittorrent`
+  - Client Type: `qBittorrent`
+  - URL: `http://localhost:8080`
+  - Enter your qBittorrent Username and Password
+- Click `Test` and then `Save`
+
+### Configure Queue Cleaner
+<!-- https://youtu.be/ckb9fytNkYo?t=940 -->
+
+Settings > Queue Cleaner > Toggle on `Enabled`
+
+- General
+  - Set "Schedule Unit" to `Hours`
+  - Set "Every" to `1`
+  - Click `Save Settings`
+- Failed Import
+  - Max Strikes = 3
+  - Set "Pattern Mode" to `Include`
+    - Under "Included Patterns" paste the following `No files found are eligible`
+    - Press `[Enter]` after pasting the pattern to add it to the list
+  - Click `Save Settings`
+- Downloading Metadata
+  - Max Strikes = 10
+  - Click `Save Settings`
+
+Stalled Download Rules
+
+- Click `+ Add Stall Rule`
+- Rule: Early Stalled Downloads
+  - Name = `Early Stalled Downloads`
+  - Max Strikes = `24`
+  - Privacy Type = `Both`
+  - Min Completion % = `0`
+  - Max Completion % = `85`
+  - Enable `Reset Strikes on Progress`
+  - Minimum Progress to Reset = `10 KB`
+  - Click `Create`
+  - Click `Save Settings`
+- Click `+ Add Stall Rule`
+- Rule: Later Stalled Downloads Rule
+  - Name = `Later Stalled Downloads`
+  - Max Strikes = `72`
+  - Privacy Type = `Both`
+  - Min Completion % = `85`
+  - Max Completion % = `100`
+  - Enable `Reset Strikes on Progress`
+  - Minimum Progress to Reset = `10 KB`
+  - Click `Create`
+  - Click `Save Settings`
+
+Slow Download Rules
+
+- Click `+ Add Slow Rule`
+- Rule: Early Slow Downloads
+  - Name = `Early Slow Downloads`
+  - Max Strikes = `5`
+  - Min Speed = `10 KB/s`
+  - Maximum Time (Hours) = `72`
+  - Privacy Type = `Both`
+  - Min Completion % = `0`
+  - Max Completion % = `85`
+  - Ignore Above Size = `25 GB`
+  - Enable `Reset Strikes on Progress`
+  - Click `Create`
+  - Click `Save Settings`
+- Click `+ Add Slow Rule`
+- Rule: Later Slow Downloads
+  - Name = `Later Slow Downloads`
+  - Max Strikes = `24`
+  - Min Speed = `1 KB/s`
+  - Maximum Time (Hours) = `0`
+  - Privacy Type = `Both`
+  - Min Completion % = `85`
+  - Min Completion % = `100`
+  - Ignore above Size = `25 GB`
+  - Enable `Reset Strikes on Progress`
+  - Click `Create`
+  - Click `Save Settings`
+
+### Finish Configuration
+
+Configure Malware Blocker
+
+- Settings > Malware Blocker > Toggle on `Enabled`
+- Set "Schedule Unit" to `Minutes`
+- Set "Every" to `5`
+- Expand `Arr Blocklists`
+- Enable `Sonarr` and `Radarr` and paste the following URL in "Blocklist Path"
+```
+https://cleanuparr.pages.dev/static/blacklist
+```
+- Click `Save Settings`
+
+Configure Blacklist Sync
+
+- Settings > Blacklist Sync > Toggle on `Enabled`
+- Paste the following for "Blacklist File Path"
+```
+https://cleanuparr.pages.dev/static/blacklist
+```
+- Click `Save Settings`
+
 ## Seerr
 Port: `5055`
 
@@ -913,10 +1078,23 @@ For Macintosh or Linux use `smb://server/share`
 episode downloads not being manaaged or monitored correctly in Sonarr
 - Stop and start the stack in dockhand and then check invalid downloads in activity
 
+Radarr & Sonarr fail to import a download
+- Navigate to Wanted and select `Manual Import`
+- Browse to /data/downloads and select your media
+- Click `Move Automatically`
+
 ## future add-ons
+
+Buildarr - automated setup for stack, abandoned
+- https://github.com/buildarr/buildarr
+- https://github.com/nantomarioni/buildarr
+
+Byparr - Flaresolvr replacement if needed
+- https://github.com/ThePhaseless/Byparr
+
 Profilarr - High Quality Profiles but massive media sizes
-- https://www.youtube.com/watch?v=u1FQNMsuzFc
 - https://www.youtube.com/watch?v=TFG6A1d2C2c
+- https://www.youtube.com/watch?v=u1FQNMsuzFc
 - https://github.com/Dictionarry-Hub/database
 Homer - A dashboard to easily get to all services?
 Tdarr - Convert media and never worry about file sizes
