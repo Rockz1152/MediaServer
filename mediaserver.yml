@@ -32,6 +32,7 @@ services:
       - 7878:7878     # Radarr
       - 8989:8989     # Sonarr
       - 6767:6767     # Bazarr
+      - 11011:11011   # Cleanuparr
       # - 8096:8096   # Jellyfin
       # - 5055:5055   # Seerr
     volumes:
@@ -183,6 +184,30 @@ services:
       start_period: 60s
       timeout: 3s
       interval: 30s
+      retries: 3
+    restart: unless-stopped
+    depends_on:
+      - gluetun
+
+  cleanuparr:
+    image: ghcr.io/cleanuparr/cleanuparr:latest
+    container_name: cleanuparr
+    network_mode: "service:gluetun"
+    environment:
+      - PORT=11011
+      - UMASK=007
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
+    # ports:
+    #  - 11011:11011
+    volumes:
+      - ${DATA_DIR}/config/cleanuparr:/config
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11011/health"]
+      interval: 30s
+      timeout: 10s
+      start_period: 30s
       retries: 3
     restart: unless-stopped
     depends_on:
