@@ -242,7 +242,7 @@ cat > config.yml << EOF
 title: "Media Server"
 subtitle: "Homer"
 documentTitle: "Media Server Dashboard"
-header: true
+header: false
 footer: false
 theme: neon
 columns: 3
@@ -279,6 +279,7 @@ colors:
     link-hover: "#ffdd57"
 
 links:
+  - name: "Media Server Dashboard"
   - name: "Github"
     icon: "fab fa-github"
     url: "https://github.com/Rockz1152/MediaServer"
