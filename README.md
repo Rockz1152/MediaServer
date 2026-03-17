@@ -6,6 +6,7 @@
 1. [Server Setup](#server-setup)
 1. [Dockhand](#dockhand)
 1. [Building the Stack](#building-the-stack)
+1. [Homer](#homer)
 1. [Jellyfin](#jellyfin)
 1. [qBittorrent](#qbittorrent)
 1. [Prowlarr](#prowlarr)
@@ -21,6 +22,7 @@
 This media stack contains the following applications
 
 - Dockhand - A utility that helps with management of your docker containers
+- Homer - A simple homepage for managing your Media server. Bookmark it!
 - Jellyfin - A free, open-source media server that organizes your movies and TV shows and streams them to all your devices
 - Seer - A request management tool that lets you browse a "Netflix-style" interface to request new content be added to your library
 - Gluetun - A VPN client in a container to securely route traffic from other apps through a VPN
@@ -68,6 +70,7 @@ Create the following folder structure on the drive or network locations where yo
 ```
 data
 ├── config
+│   ├── homer
 │   ├── jellyfin-cache
 │   └── jellyfin-config
 ├── downloads
@@ -82,7 +85,7 @@ cd /path/to/storage
 ```
 - Create the folders
 ```
-mkdir -p data/config/{jellyfin-cache,jellyfin-config}; \
+mkdir -p data/config/{homer,jellyfin-cache,jellyfin-config}; \
 mkdir -p data/downloads/; \
 mkdir -p data/media/{movies,shows};
 ```
@@ -172,6 +175,7 @@ sudo docker pull ghcr.io/linuxserver/sonarr; \
 sudo docker pull ghcr.io/linuxserver/bazarr; \
 sudo docker pull ghcr.io/cleanuparr/cleanuparr; \
 sudo docker pull ghcr.io/seerr-team/seerr; \
+sudo docker pull b4bz/homer; \
 sudo docker pull ghcr.io/dockur/samba;
 ```
 
@@ -213,6 +217,128 @@ Once you're ready, click the `Create & Start` button to deploy
 
 - Run `sudo journalctl --unit docker -f` on the server to monitor for errors
 - Startup time can vary from 1 to 3 minutes depending on hardware
+
+## Homer
+Port: `8000`
+
+We will generate Homer's config using a bash script to fill-in the links to your Apps
+
+> [!NOTE]
+> The Bash script below generates a file named `config.yml` in the current working directory
+> It uses the `hostname` command to find the system's main IP Address in order to create the links in the config
+
+- Open a shell session on your media server and navigate to `data/config/homer`
+- Once you are in the Homer directory, copy and paste the code below.
+  - Open a browser to `http://Your.Server.IP:8000` to see your homepage
+```bash
+export HOST_IP=$(hostname -I | awk '{print $1}')
+echo Server IP: $HOST_IP
+cat > config.yml << EOF
+---
+title: "Dashboard"
+subtitle: "Homer"
+documentTitle: "Media Server Dashboard"
+header: false
+footer: false
+theme: neon
+columns: 3
+connectivityCheck: true
+
+defaults:
+  layout: 'list'
+  colorTheme: 'dark'
+
+colors:
+  light:
+    highlight-primary: "#3367d6"
+    highlight-secondary: "#4285f4"
+    background: "#f5f5f5"
+    card-background: "#ffffff"
+    text: "#363636"
+    text-header: "#ffffff"
+    text-title: "#303030"
+    text-subtitle: "#424242"
+    card-shadow: rgba(0, 0, 0, 0.1)
+    link: "#3273dc"
+    link-hover: "#363636"
+  dark:
+    highlight-primary: "#3367d6"
+    highlight-secondary: "#4285f4"
+    background: "#131313"
+    card-background: "#2b2b2b"
+    text: "#eaeaea"
+    text-header: "#ffffff"
+    text-title: "#fafafa"
+    text-subtitle: "#f5f5f5"
+    card-shadow: rgba(0, 0, 0, 0.4)
+    link: "#3273dc"
+    link-hover: "#ffdd57"
+
+links:
+  - name: "Media Server Github"
+    icon: "fab fa-github"
+    url: "https://github.com/Rockz1152/MediaServer"
+    target: "_blank"
+
+services:
+  - name: "Media"
+    icon: "fas fa-film"
+    items:
+      - name: "Jellyfin"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/jellyfin.png"
+        url: "http://$HOST_IP:8096"
+        subtitle: "Media Server"
+        target: "_blank"
+      - name: "Seer"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/seerr.png"
+        url: "http://$HOST_IP:5055"
+        subtitle: "Media Request Manager"
+        target: "_blank"
+
+  - name: "Infrastructure"
+    icon: "fas fa-server"
+    items:
+      - name: "Dockhand"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/dockhand.png"
+        url: "http://$HOST_IP:3000"
+        subtitle: "Container Management"
+        target: "_blank"
+      - name: "qBittorrent"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/qbittorrent.png"
+        url: "http://$HOST_IP:8080"
+        subtitle: "Torrent Management"
+        target: "_blank"
+
+  - name: "Arr Apps"
+    icon: "fa-regular fa-bookmark"
+    items:
+      - name: "Prowlarr"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/prowlarr.png"
+        url: "http://$HOST_IP:9696"
+        subtitle: "Indexer"
+        target: "_blank"
+      - name: "Radarr"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/radarr.png"
+        url: "http://$HOST_IP:7878"
+        subtitle: "Movie Manager"
+        target: "_blank"
+      - name: "Sonarr"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/sonarr.png"
+        url: "http://$HOST_IP:8989"
+        subtitle: "TV Show Manager"
+        target: "_blank"
+      - name: "Bazarr"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/bazarr.png"
+        url: "http://$HOST_IP:6767"
+        subtitle: "Subtitles Manager"
+        target: "_blank"
+      - name: "Cleanuparr"
+        logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/cleanuparr.png"
+        url: "http://$HOST_IP:11011"
+        subtitle: "Download Regulator"
+        target: "_blank"
+EOF
+```
 
 ## Jellyfin
 Port: `8096`
