@@ -33,6 +33,7 @@ services:
       - 8989:8989     # Sonarr
       - 6767:6767     # Bazarr
       - 11011:11011   # Cleanuparr
+      # - 8000:8080   # Homer
       # - 8096:8096   # Jellyfin
       # - 5055:5055   # Seerr
     volumes:
