@@ -185,7 +185,13 @@ Go to Stacks and select `+ Create`
   - _*Stack name must be lowercase, start with a letter or number, and contain only letters, numbers, hyphens, and underscores_
   - e.g. `media-server`
 - Paste your compose file in the left side of the window
-  - This is the contents of `mediaserver.yml`
+  - This is the contents of 
+
+MAKE A LINK
+
+  `mediaserver.yml`
+
+
 
 Gluetun - VPN
 
@@ -239,10 +245,10 @@ export HOST_IP=$(hostname -I | awk '{print $1}')
 echo Server IP: $HOST_IP
 cat > config.yml << EOF
 ---
-title: "Dashboard"
+title: "Media Server"
 subtitle: "Homer"
 documentTitle: "Media Server Dashboard"
-header: false
+header: true
 footer: false
 theme: neon
 columns: 3
@@ -279,7 +285,7 @@ colors:
     link-hover: "#ffdd57"
 
 links:
-  - name: "Media Server Github"
+  - name: "Github"
     icon: "fab fa-github"
     url: "https://github.com/Rockz1152/MediaServer"
     target: "_blank"
