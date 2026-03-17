@@ -213,7 +213,7 @@ Fill in your `.env` file
 Once you're ready, click the `Create & Start` button to deploy
 
 > [!NOTE]
-> The first time you start the stack it may produce an error in Dockhand. You may have to stop and start the stack once or twice for it to finish creating directories before it will start and stop without error.
+> The first time you start the stack it may produce an error in Dockhand. You may have to stop and start the stack once or twice for it to finish creating directories.
 
 - Run `sudo journalctl --unit docker -f` on the server to monitor for errors
 - Startup time can vary from 1 to 3 minutes depending on hardware
@@ -223,13 +223,17 @@ Port: `8000`
 
 We will generate Homer's config using a bash script to fill-in the links to your Apps
 
-> [!NOTE]
-> The Bash script below generates a file named `config.yml` in the current working directory
-> It uses the `hostname` command to find the system's main IP Address in order to create the links in the config
-
 - Open a shell session on your media server and navigate to `data/config/homer`
 - Once you are in the Homer directory, copy and paste the code below.
-  - Open a browser to `http://Your.Server.IP:8000` to see your homepage
+- Open a browser to `http://Your.Server.IP:8000` to see your homepage
+
+> [!NOTE]
+> The Bash script below generates a file named `config.yml` in the current working directory.
+> It uses the `hostname` command to find the system's IP Address in order to create the links in the config.
+> Feel free to edit the file but changes must be in [YAML](https://yaml.org/) format.
+>
+> Remember to change to the `data/config/homer` directory before running the script
+
 ```bash
 export HOST_IP=$(hostname -I | awk '{print $1}')
 echo Server IP: $HOST_IP
