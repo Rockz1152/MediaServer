@@ -163,6 +163,14 @@ sudo docker run -d \
 ```
 
 ## Building the Stack
+Gluetun - VPN
+
+- Visit https://github.com/qdm12/gluetun-wiki/tree/main/setup/providers and select your VPN provider
+- Depending on your provider, you may need to login to your VPN's web interface to retrieve Open VPN credentials and location data
+  - For "Private Internet Access" you just use your current Username and Password
+  - For "Windscribe" you'll need to login online and generate OpenVPN credentials
+- Save this info in order to prepare your environment file in Dockhand next
+
 Pre-pull the docker images to speed up building the stack
 ```
 sudo docker pull ghcr.io/jellyfin/jellyfin; \
@@ -184,22 +192,8 @@ Go to Stacks and select `+ Create`
 - Give your stack a name at the top
   - _*Stack name must be lowercase, start with a letter or number, and contain only letters, numbers, hyphens, and underscores_
   - e.g. `media-server`
-- Paste your compose file in the left side of the window
-  - This is the contents of 
-
-MAKE A LINK
-
-  `mediaserver.yml`
-
-
-
-Gluetun - VPN
-
-- Visit https://github.com/qdm12/gluetun-wiki/tree/main/setup/providers and select your VPN provider
-- Depending on your provider, you may need to login to your VPN's web interface to retrieve Open VPN credentials and location data
-  - For "Private Internet Access" you just use your current Username and Password
-  - For "Windscribe" you'll need to login online and generate OpenVPN credentials
-- Save this info in order to prepare your environment file in Dockhand next
+- Paste the docker-compose file in the left side of the window
+  - This is the contents of [mediaserver.yml](https://raw.githubusercontent.com/Rockz1152/MediaServer/refs/heads/main/mediaserver.yml)
 
 Fill in your `.env` file
 
