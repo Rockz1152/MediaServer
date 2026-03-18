@@ -79,9 +79,13 @@ data
     └── shows
 ```
 
-- First, navigate to the root folder of your storage location
+- Navigate to the root folder of your storage location
 ```
 cd /path/to/storage
+```
+- Create the root of the data directory and take ownership
+```
+sudo mkdir data && sudo chown $(whoami):$(whoami) data
 ```
 - Create the folders
 ```
