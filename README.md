@@ -202,7 +202,34 @@ Go to Stacks and select `+ Create`
 Fill in your `.env` file
 
 - To paste your `.env` file, you can either click `^ Load` button or change to edit mode by clicking the small document icon next to the words "Environment variables"
-  - The file `.env.dist` contains a template of all the variables that need to be filled in
+  - The file `.env.dist` also contains the variables that need to be filled in
+  - Keep a backup of this information in the event you need to rebuild the server
+```
+# General
+DATA_DIR=
+TIMEZONE=
+
+# Permissions
+## Enter your docker User ID and Group ID, usually 1000
+PUID=
+PGID=
+
+# Network Share Settings
+## Share name, default is "Data"
+SMB_SHARE=Data
+## Username and Password
+SMB_USER=
+SMB_PASS=
+
+# Gluetun VPN Client
+## Requires OpenVPN
+## https://github.com/qdm12/gluetun-wiki/tree/main/setup/providers
+VPN_SERVICE_PROVIDER=
+OPENVPN_USER=
+OPENVPN_PASSWORD=
+SERVER_REGIONS=
+#FIREWALL_VPN_INPUT_PORTS=  # if you have port forwarding enabled
+```
 - "DATA_DIR" will be the path to your drive that media will be saved to. e.g. `/mnt/usb/data`
 - Common Timezones:
   - America/New_York
@@ -212,7 +239,7 @@ Fill in your `.env` file
   - America/Los_Angeles
 - Use `id <username>` to find your `uid` and `gid`, usually this is `1000` but yours may differ
 - Under "Network Share Settings", you can change the name of the network share and specy the Username and Password to access it
-- You must fill-in your VPN info into the Gluetun section or the container will restart over and over
+- You must fill-in your VPN login credentials into the Gluetun section or the container will continuously restart
 
 Once you're ready, click the `Create & Start` button to deploy
 
