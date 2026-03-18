@@ -86,7 +86,14 @@ Apply and verify the changes by running:
 sudo netplan apply; sudo reboot
 ```
 
-## Mount a USB Drive
+## Mount a Drive
+This can be an external or internal drive
+
+Get Disk Info
+```
+sudo lshw -class disk
+```
+
 Partition the drive
 
 - You only need to re-partition the drive if it contains more than one partition
