@@ -64,7 +64,7 @@ LXC Container Requirements
 
 Once you have a user established, connect with SSH to your server
 
-Create the following folder structure on the drive or network locations where you will be keeping your media and configs
+Create the following folder structure on the drive where you will be keeping your media and configs
 
 - There are commands below the overview to quickly create the folders
 ```
@@ -87,7 +87,6 @@ data
     ├── movies
     └── shows
 ```
-
 - Navigate to the root folder of your storage location
 ```
 cd /path/to/storage
