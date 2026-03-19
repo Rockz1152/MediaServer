@@ -526,11 +526,11 @@ Configure Downloads
 - Tools > Options > Downloads
 - Set Default Download Location
   - Set "Default Save Path" to `/data/downloads`
-
-<!-- Now synced from Cleanuparr
 - Block Bad File Types
-  - Check `Excluded file names` and paste the following in the box underneath
-```
+  - Check `Excluded file names`
+  - This field will be populated later by Cleanuparr
+
+<!-- Better list ow synced from Cleanuparr
 *.exe
 *.jar
 *.lnk
@@ -541,7 +541,6 @@ Configure Downloads
 *.tar
 *.tar.gz
 *.gz
-```
 -->
 
 Configure Bandwidth
@@ -1060,12 +1059,12 @@ Configure Prowlarr to support Cleanuparr
 - Navigate to Settings > Apps
 - Enable advanced settings by clicking on Show Advanced
 - Edit Radarr and Sonarr
-- Enable `Sync Reject Blocklisted Torrent Hashes While Grabbing`
+- Enable `Sync Reject Blocklisted Torrent Hashes While Grabbing` and click `Save`
 - Click `Test All Apps` and then `Sync App Indexers`
 
 Configure Basic Settings
 
-- Open Cleanuparr in browser
+- Open Cleanuparr in a browser
 - Setup a Username and Password
 - For "Two-Factor Authentication" select `Skip for now`
 - Click `Complete Setup`
@@ -1074,18 +1073,6 @@ Configure Basic Settings
 - Click `Save Settings`
 
 ### Connect Apps
-Radarr
-
-- On the left under "Media Apps" select `Radarr` and then click `Add Instance`
-- Fill in the connect information:
-  - Name: `Radarr`
-  - URL: `http://localhost:7878`
-- Retrieve your Radarr API key
-  - In Radarr go to Settings > General > Security
-  - Copy the `API Key`
-  - Go back to Cleanuparr and paste the Key under `API Key`
-- Click `Test` and then `Save`
-
 Sonarr
 
 - On the left under "Media Apps" select `Sonarr` and then click `Add Instance`
@@ -1094,6 +1081,18 @@ Sonarr
   - URL: `http://localhost:8989`
 - Retrieve your Sonarr API key
   - In Sonarr go to Settings > General > Security
+  - Copy the `API Key`
+  - Go back to Cleanuparr and paste the Key under `API Key`
+- Click `Test` and then `Save`
+
+Radarr
+
+- On the left under "Media Apps" select `Radarr` and then click `Add Instance`
+- Fill in the connect information:
+  - Name: `Radarr`
+  - URL: `http://localhost:7878`
+- Retrieve your Radarr API key
+  - In Radarr go to Settings > General > Security
   - Copy the `API Key`
   - Go back to Cleanuparr and paste the Key under `API Key`
 - Click `Test` and then `Save`
@@ -1212,6 +1211,7 @@ Welcome to Seerr
 - Select `Configure Jellyfin`
 - For "Jellyfin URL", just enter `jellyfin`
 - Enter an email address followed by your login for Jellyfin
+  - A fake email address is perfectly fine to use here
 - Click `Sign in`
 - Click `Sync Libraries`
   - Enable `Movies` and `Shows`
@@ -1225,7 +1225,7 @@ Radarr
 - Click `+ Add Radarr Server`
 - Check `Default Server`
 - Server Name: `Radarr`
-- Hostname or IP Address: Enter your docker server IP Address
+- Hostname or IP Address: Enter `gluetun`
 - API Key
   - In Radarr go to Settings > General > Security
   - Copy the `API Key`
@@ -1240,7 +1240,7 @@ Sonarr
 - Click `+ Add Sonarr Server`
 - Check `Default Server`
 - Server Name: `Sonarr`
-- Hostname or IP Address: Enter your docker server IP Address
+- Hostname or IP Address: Enter `gluetun`
 - API Key
   - In Sonarr go to Settings > General > Security
   - Copy the `API Key`
