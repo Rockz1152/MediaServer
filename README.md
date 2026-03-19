@@ -557,7 +557,7 @@ Enable Torrent Queuing
 
 - Tools > Options > BitTorrent > Torrent Queuing
 - Make sure `Torrent Queuing` is checked
-- Increase `Maximum active downloads` to `5` or another preferred value
+- Increase `Maximum active downloads` to `6` or another preferred value
 - Check `Do not count slow torrents in these limits`
   - In order to use this properly be sure to also increase `Maximum active torrents`
   - e.g set `Maximum active torrents` to `10`
@@ -1108,8 +1108,6 @@ qBittorrent
 - Click `Test` and then `Save`
 
 ### Configure Queue Cleaner
-<!-- https://youtu.be/ckb9fytNkYo?t=940 -->
-
 Settings > Queue Cleaner > Toggle on `Enabled`
 
 - General
@@ -1156,7 +1154,7 @@ Slow Download Rules
 - Click `+ Add Slow Rule`
 - Rule: Early Slow Downloads
   - Name = `Early Slow Downloads`
-  - Max Strikes = `5`
+  - Max Strikes = `24`
   - Min Speed = `10 KB/s`
   - Maximum Time (Hours) = `72`
   - Privacy Type = `Both`
@@ -1169,7 +1167,7 @@ Slow Download Rules
 - Click `+ Add Slow Rule`
 - Rule: Later Slow Downloads
   - Name = `Later Slow Downloads`
-  - Max Strikes = `24`
+  - Max Strikes = `72`
   - Min Speed = `1 KB/s`
   - Maximum Time (Hours) = `0`
   - Privacy Type = `Both`
