@@ -480,7 +480,10 @@ After logging in, you should set your own password
 
 - Tools > Options > WebUI
 - Set a new Username and Password
-- Don't forget to scroll to the bottom of each page in qBittorrent's settings and click `Save` every time you make a change
+  - If you don't want to use a Username and Password to use qBittorrent you can instead bypass authentication
+  - Check the options `Bypass authentication for clients on localhost` and `Bypass authentication for clients in whitelisted IP subnets`
+  - Enter these IP Subnets into the box `100.64.0.0/10,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16`
+- Don't forget to scroll to the bottom of each page in qBittorrent's settings and click `Save` each time you make a change
 
 Configure Downloads
 
@@ -510,8 +513,10 @@ Configure Bandwidth
 - Tools > Options > Speed > Global Rate Limits
 - Limit the upload speed
   - e.g. `5000` KiB/s or 10 percent of your ISP upload rate
+  - Leave Download set to `0` KiB/s for unlimited
 - You can also optionally set alternative rates
   - This is intended to be a low speed mode which can switched on in the main download interface
+  - Suggested values for Alternative Rate Limits: `10` KiB/s Upload and `1000` KiB/s Download
 
 Enable Torrent Queuing
 
