@@ -573,12 +573,15 @@ Configure Minimum Seeders
 FlareSolverr
 
 - Settings > Indexers > [+] > FlareSolverr
-- Add a Tag. e.g. `flare` This is used later to indicate if an indexer requires a Cloudflare challenge
+- Add a Tag. e.g. `flare`. This is used later to indicate if an indexer requires a Cloudflare challenge
 - Leave "Host" to it's default value of `http://localhost:8191/`
-- Click `Save`
+- Click `Test` and then `Save`
 
 Add Indexers
 
+- Make sure Advanced Settings are set to show
+  - Go to Settings in the left and look in the top bar for `Show Advanced`
+  - Click it and it should change to "Hide Advanced"
 - Indexers > Add New Indexer
 - Find the indexer you want to add. Don't forget to include the `flare` tag if the site requires it.
   - This section is intentionally left vague, sorry.
@@ -626,7 +629,7 @@ Connect to Prowlarr
 
 - Settings > General > Security
 - Copy the `API Key`
-- Go back to Prowlarr and Navigate to Settings > Apps > Applications > [+] > Radarr
+- Go to Prowlarr and Navigate to Settings > Apps > Applications > [+] > Radarr
 - Paste the API Key
 - Click `Test` and `Save`
 
@@ -642,8 +645,6 @@ Setup Media Folders
 ```
 {Movie.CleanTitle}{.Release.Year}{.Edition.Tags}{.MediaInfo VideoCodec}{.Quality.Full}{.Release Group}
 ```
-- Importing
-  - Enable `Import Extra Files`
 - File Management
   - Enable `Unmonitor Deleted Movies`
 - Root Folders
@@ -750,7 +751,7 @@ Connect to Prowlarr
 
 - Settings > General > Security
 - Copy the `API Key`
-- Go back to Prowlarr and Navigate to Settings > Apps > Applications > [+] > Sonarr
+- Go to Prowlarr and Navigate to Settings > Apps > Applications > [+] > Sonarr
 - Paste the API Key
 - Click `Test` and `Save`
 
@@ -762,14 +763,11 @@ Setup Media Folders
 - Episode Naming
   - Enable `Rename Episodes`
   - Colon Replacement: `Delete`
+  - Series Folder Format - Set to `{Series TitleYear}`
   - Standard Episode Format - Copy and paste the following:
 ```
 {Series.CleanTitleYear}.S{season:00}E{episode:00}.{Episode.CleanTitle}.{MediaInfo VideoCodec}.{Quality.Full}
 ```
-  - Series Folder Format
-    - Set to `{Series TitleYear}`
-- Importing
-  - Enable `Import Extra Files`
 - File Management
   - Enable `Unmonitor Deleted Episodes`
 - Root Folders
