@@ -176,14 +176,6 @@ sudo docker run -d \
 ```
 
 ## Building the Stack
-Gluetun - VPN
-
-- Visit https://github.com/qdm12/gluetun-wiki/tree/main/setup/providers and select your VPN provider
-- Depending on your provider, you may need to login to your VPN's web interface to retrieve Open VPN credentials and location data
-  - For "Private Internet Access" you just use your current Username and Password
-  - For "Windscribe" you'll need to login online and generate OpenVPN credentials
-- Save this info in order to prepare your environment file in Dockhand next
-
 Pre-pull the docker images to speed up building the stack
 ```
 sudo docker pull ghcr.io/jellyfin/jellyfin; \
@@ -220,8 +212,14 @@ TIMEZONE=
 
 # Permissions
 ## Enter your docker User ID and Group ID, usually 1000
+## Run "id <username>" to find your IDs
 PUID=
 PGID=
+
+# Hardware Acceleration
+## Specify the "render" Group ID for Jellyfin
+## Run "getent group render | cut -d: -f3" to find your ID
+RENDER_ID=
 
 # Network Share Settings
 ## Share name, default is "Data"
@@ -239,16 +237,32 @@ OPENVPN_PASSWORD=
 SERVER_REGIONS=
 #FIREWALL_VPN_INPUT_PORTS=  # if you have port forwarding enabled
 ```
-- "DATA_DIR" will be the path to your drive that media will be saved to. e.g. `/mnt/usb/data`
-- Common Timezones:
-  - America/New_York
-  - America/Chicago
-  - America/Denver
-  - America/Phoenix
-  - America/Los_Angeles
-- Use `id <username>` to find your `uid` and `gid`, usually this is `1000` but yours may differ
-- Under "Network Share Settings", you can change the name of the network share and specy the Username and Password to access it
+- General
+  - "DATA_DIR" will be the path to your drive that media will be saved to. e.g. `/mnt/usb/data`
+  - Common Timezones:
+    - America/New_York
+    - America/Chicago
+    - America/Denver
+    - America/Phoenix
+    - America/Los_Angeles
+- Permissions
+  - Use `id <username>` to find your `uid` and `gid`, usually this is `1000` but yours may differ
+- Hardware Acceleration
+  - This is the group ID for the "render" group required for Jellyfin to access the video card for Hardware Accelerated Encoding
+  - Hardware Acceleration is not available on any Raspberry Pi
+  - Use this command to the render Group ID `getent group render | cut -d: -f3`
+  - Make sure to uncomment the lines for Hardware Acceleration in the docker-compose file under the Jellyfin container if you are going to use it
+- Network Share Settings
+  - Enter a Username and Password that will be used to access your network share
+  - You can also change the name of the share, the default is "Data"
 - You must fill-in your VPN login credentials into the Gluetun section or the container will continuously restart
+
+Gluetun - VPN
+
+- Visit https://github.com/qdm12/gluetun-wiki/tree/main/setup/providers and select your VPN provider
+- Depending on your provider, you may need to login to your VPN's web interface to retrieve Open VPN credentials and location data
+  - For "Private Internet Access" you just use your current Username and Password
+  - For "Windscribe" you'll need to login online and generate OpenVPN credentials
 
 Once you're ready, click the `Create & Start` button to deploy
 
@@ -422,9 +436,32 @@ Setup your media libraries
   - If you don't plan on the server being remotely accessible uncheck `Allow remote connections to this server.` otherwise click `Next`
 - Click `Finish`
 
-<!--
-add hardware acceleration notes
--->
+Setup Hardware Acceleration
+
+- For more information see the following
+  -  https://jellyfin.org/docs/general/post-install/transcoding/hardware-acceleration/intel/#configure-with-linux-virtualization
+- Hardware Acceleration is not available on Raspberry Pis
+- Ensure you have uncommented the two lines in the docker-compose file under the Jellyfin container
+- Make sure you have set the "render" Group ID in your environment file
+  - You can run `getent group render | cut -d: -f3` on the host system to find the ID
+- If you are enabling Hardware Acceleration after having already deployed the stack, you may need to "Down" or remove the containers first for the changes to apply
+- In Jellyfin, navigate to Dashboard > Playback > Transcoding
+- Select your Hardware Acceleration method
+  - For AMD and Intel systems running Haswell (4th gen Core) and older, select `Video Acceleration API (VAAPI)`
+  - For Intel Broadwell (5th gen Core) and newer, select `Intel Quicksync (QSV)`
+- Select Hardware Decoding Formats
+  - On the host system run the follow command `sudo docker exec -it jellyfin /usr/lib/jellyfin-ffmpeg/vainfo`
+  - Under "Enable hardware decoding for", check any profiles that are returned by "vainfo: Supported profile and entrypoints"
+  - For example, "VAProfileMPEG2Simple" is `MPEG2`, "VAProfileH264Main" is `H264`, "VAProfileVC1Main" is `VC1`
+- Scroll to the bottom and click `Save`
+- To test hardware acceleration, copy some media to your server and during playback force the bitrate to lower than original
+- You can monitor your server with one of the tools below to check if the video card is active
+  - Intel Systems
+    - Tool: `intel_gpu_top`
+    - Install: `sudo apt install intel-gpu-tools`
+  - AMD Systems
+    - Tool: `radeontop`
+    - Install: `sudo apt install radeontop`
 
 How to create New Users
 
@@ -791,7 +828,6 @@ Set Quality Settings
 | SD/DVD/480p      | 4        | 15             | 20       |
 | 720p             | 4        | 22             | 26       |
 | 1080p            | 5        | 25             | 33       |
-
 
 ### Setup Custom Formats
 Import Custom Format Presets
