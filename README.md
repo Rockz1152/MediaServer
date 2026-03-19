@@ -70,9 +70,18 @@ Create the following folder structure on the drive or network locations where yo
 ```
 data
 ├── config
+│   ├── bazarr
+│   ├── cleanuparr
+│   ├── flaresolverr
+│   ├── gluetun
 │   ├── homer
 │   ├── jellyfin-cache
-│   └── jellyfin-config
+│   ├── jellyfin-config
+│   ├── prowlarr
+│   ├── qbittorrent
+│   ├── radarr
+│   ├── seerr
+│   └── sonarr
 ├── downloads
 └── media
     ├── movies
@@ -89,7 +98,7 @@ sudo mkdir data && sudo chown $(whoami):$(whoami) data
 ```
 - Create the folders
 ```
-mkdir -p data/config/{homer,jellyfin-cache,jellyfin-config}; \
+mkdir -p data/config/{bazarr,cleanuparr,flaresolverr,gluetun,homer,jellyfin-cache,jellyfin-config,prowlarr,qbittorrent,radarr,seerr,sonarr}; \
 mkdir -p data/downloads/; \
 mkdir -p data/media/{movies,shows};
 ```
@@ -101,7 +110,7 @@ mkdir -p data/media/{movies,shows};
 >
 > Use `ls -la` to verify ownership.
 >
-> If the folders "jellyfin-cache" and "jellyfin-config" are not owned by your user, Jellyfin will fail to start.
+> If these folders are not created and owned by the correct user, many containers will fail to start.
 
 ## Dockhand
 Install docker
@@ -375,6 +384,8 @@ services:
         target: "_blank"
 EOF
 ```
+
+Visit your server IP address on port `8000` to see your server dashboard
 
 ## Jellyfin
 Port: `8096`
