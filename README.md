@@ -481,12 +481,10 @@ Setup Intro Skipper
   - The introduction takes place after more than 25 percent of the show
   - The introduction takes place after 10 minutes
   - The introduction is shorter than 15 seconds
+  - The introduction is longer than 2 minutes
 - The detection settings can be adjusted in the plugin interface
   - Dashboard > Intro Skipper under Plugins > Analysis
-  - Adjust the value of the settings you want to change:
-    - "Percent of media to analyze"
-    - "Maximum runtime to analyze (in minutes)"
-    - "Minimum introduction duration (in seconds)"
+  - Adjust the value of the settings you want to change
   - Click `Save` at the bottom if you want to change this
 - Kick off an analysis of your media
   - Dashboard > Scheduled Tasks > Intro Skipper
