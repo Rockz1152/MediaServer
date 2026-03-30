@@ -142,7 +142,7 @@ Click `Go to Settings` to configure your local environment
 ### Updates
 Keeping images up-to-date
 
-<!-- Method may be changing after new 'pull images and retart stack' option is added -->
+<!-- Method may be changing after new 'pull images and restart stack' option is added -->
 - On the Containers tab, click `Check for updates` to see if there are any image updates available
 - If updates are available go to the Stacks tab, under Actions for your stack click the square `Stop` button and confirm
 - Back on the Containers tab, click `Update all` and wait for the images to update
@@ -437,10 +437,11 @@ Setup your media libraries
 
 Setup Hardware Acceleration
 
-- For more information see the following
-  -  https://jellyfin.org/docs/general/post-install/transcoding/hardware-acceleration/intel/#configure-with-linux-virtualization
-- Hardware Acceleration is not available on Raspberry Pis
-- Ensure you have uncommented the two lines in the docker-compose file under the Jellyfin container
+- Hardware acceleration lets a media server offload video encoding/decoding tasks to the hardware so media plays with less system load
+  - Source: https://jellyfin.org/docs/general/post-install/transcoding/hardware-acceleration/intel/#configure-with-linux-virtualization
+- Make sure you have compatible hardware
+  - Hardware Acceleration is not available on Raspberry Pis
+  - In the docker-compose file there are two lines you must uncomment under the Jellyfin section in order to pass through the hardware
 - Make sure you have set the "render" Group ID in your environment file
   - You can run `getent group render | cut -d: -f3` on the host system to find the ID
 - If you are enabling Hardware Acceleration after having already deployed the stack, you may need to "Down" or remove the containers first for the changes to apply
@@ -461,6 +462,31 @@ Setup Hardware Acceleration
   - AMD Systems
     - Tool: `radeontop`
     - Install: `sudo apt install radeontop`
+
+<!-- Need to test on Roku before adding to site
+Setup Intro Skipper
+
+- Intro Skipper adds a button to skip Introductions and Credits
+  - Source: https://github.com/intro-skipper/intro-skipper/wiki/Installation#step-1-install-the-plugin
+- Navigate to Dashboard > Plugins > Manage Repositories
+- Click `+ New Repository`
+  - Repository Name: Intro Skipper
+  - Repository URL: `https://intro-skipper.org/manifest.json`
+  - Click `Add`
+- Navigate back to plugins and select `Available` in the top left
+- Locate `Intro Skipper`
+- Open the plugin page and select `Install` and `Install` again
+- Navigate back to the Dashboard and select `Restart` to restart Jellyfin
+- Wait a minute and refresh the page, Intro-Skipper should be working now
+- Kick off an analysis of your media
+  - Dashboard > Scheduled Tasks > Find the Intro Skipper section
+  - Click the `play` button for the Detect and Analyze Media Segments task
+  - This will take some time to complete depending on the size of your collection
+- You can verify the status of media by going to Dashboard > Intro Skipper under Plugins
+  - Select `Timestamps` in the left navbar and locate your media
+  - Navigating to an episode should show detected intros and credits segments
+  - Introductions shorter than 15 seconds are not counted but can be adjusted in the `Analysis` tab
+-->
 
 How to create New Users
 
@@ -1002,10 +1028,11 @@ Configure Subtitles
   - `Common Fixes`
   - `Fix Uppercase`
 - Audio Synchronization / Alignment
+  - Enable `Always use Audio Track as Reference for Syncing`
   - Enable `Automatic Subtitles Audio Synchronization`
   - Enable both `Series Score Threshold For Audio Sync` and `Movies Score Threshold For Audio Sync`
   - For "Series Score Threshold For Audio Sync" set it to `90`
-  - For "Movies Score Threshold For Audio Sync" set it to `85`
+  - For "Movies Score Threshold For Audio Sync" set it to `90`
 - Scroll to the top and click `Save`
 
 Connect to Sonarr
@@ -1020,6 +1047,7 @@ Connect to Sonarr
 - Click `Test` which should return the version of the Sonarr server
 - Scroll to the top and click `Save`
 - Under "Options"
+  - Set "Minimum Score For Episodes" to `50`
   - Enable `Download Only Monitored`
   - Enable `Exclude season zero (extras)`
 - Under "Path Mappings" click `Add`
@@ -1038,7 +1066,9 @@ Connect to Radarr
   - Go back to Bazarr and paste the Key under `API Key`
 - Click `Test` which should return the version of the Radarr server
 - Scroll to the top and click `Save`
-- Under "Options" enable `Download Only Monitored`
+- Under "Options"
+  - Set "Minimum Score For Movies" to `50`
+  - Enable `Download Only Monitored`
 - Under "Path Mappings" click `Add`
   - Radarr: `/data/media/movies/`
   - Bazarr `/data/media/movies/`
@@ -1149,13 +1179,13 @@ Stalled Download Rules
   - Click `Create`
   - Click `Save Settings`
 
-Slow Download Rules
+Slow Download Rules <!-- Remove these rules altogether? -->
 
 - Click `+ Add Slow Rule`
 - Rule: Early Slow Downloads
   - Name = `Early Slow Downloads`
   - Max Strikes = `24`
-  - Min Speed = `10 KB/s`
+  - Min Speed = `1 KB/s`
   - Maximum Time (Hours) = `72`
   - Privacy Type = `Both`
   - Min Completion % = `0`
@@ -1305,7 +1335,7 @@ Profilarr - High Quality Profiles but massive media sizes
 - https://www.youtube.com/watch?v=TFG6A1d2C2c
 - https://www.youtube.com/watch?v=u1FQNMsuzFc
 - https://github.com/Dictionarry-Hub/database
-Homer - A dashboard to easily get to all services?
+
 Tdarr - Convert media and never worry about file sizes
 
 RegEx for x264 and x265
