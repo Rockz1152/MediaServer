@@ -463,14 +463,13 @@ Setup Hardware Acceleration
     - Tool: `radeontop`
     - Install: `sudo apt install radeontop`
 
-<!-- Need to test on Roku before adding to site
 Setup Intro Skipper
 
 - Intro Skipper adds a button to skip Introductions and Credits
   - Source: https://github.com/intro-skipper/intro-skipper/wiki/Installation#step-1-install-the-plugin
 - Navigate to Dashboard > Plugins > Manage Repositories
 - Click `+ New Repository`
-  - Repository Name: Intro Skipper
+  - Repository Name: `Intro Skipper`
   - Repository URL: `https://intro-skipper.org/manifest.json`
   - Click `Add`
 - Navigate back to plugins and select `Available` in the top left
@@ -478,15 +477,32 @@ Setup Intro Skipper
 - Open the plugin page and select `Install` and `Install` again
 - Navigate back to the Dashboard and select `Restart` to restart Jellyfin
 - Wait a minute and refresh the page, Intro-Skipper should be working now
+- By default some introductions may not be detected under the following conditions:
+  - The introduction takes place after more than 25 percent of the show
+  - The introduction takes place after 10 minutes
+  - The introduction is shorter than 15 seconds
+- The detection settings can be adjusted in the plugin interface
+  - Dashboard > Intro Skipper under Plugins > Analysis
+  - Adjust the value of the settings you want to change:
+    - "Percent of media to analyze"
+    - "Maximum runtime to analyze (in minutes)"
+    - "Minimum introduction duration (in seconds)"
+  - Click `Save` at the bottom if you want to change this
 - Kick off an analysis of your media
-  - Dashboard > Scheduled Tasks > Find the Intro Skipper section
-  - Click the `play` button for the Detect and Analyze Media Segments task
+  - Dashboard > Scheduled Tasks > Intro Skipper
+  - Click the `Play` button next to the "Detect and Analyze Media Segments" task
   - This will take some time to complete depending on the size of your collection
-- You can verify the status of media by going to Dashboard > Intro Skipper under Plugins
-  - Select `Timestamps` in the left navbar and locate your media
-  - Navigating to an episode should show detected intros and credits segments
-  - Introductions shorter than 15 seconds are not counted but can be adjusted in the `Analysis` tab
--->
+- You can verify the status of media by going to the plugins settings page
+  - Dashboard > Intro Skipper under Plugins > Timestamps
+  - locating your media should show detected Intro and Credits segments
+- Lastly, add a scheduled task to clean any removed media from Intro Skipper's cache
+  - Dashboard > Scheduled Tasks > Intro Skipper > Clean Intro Skipper Cache
+  - Click `+ Add Trigger`
+  - Trigger type: `Weekly`
+  - Day of week: `Sunday`
+  - Time: `12:00 AM`
+  - Click `Add`
+- Let Intro Skipper finish analyzing your media while you continue with the rest of the server setup
 
 How to create New Users
 
