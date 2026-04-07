@@ -71,8 +71,11 @@ network:
         passthrough:
           proxy._: ""
 ```
-  - _*When editing Yaml files, make sure you follow the YAML code indent standards._
-  - _*If the syntax is not correct, the changes will not be applied._
+
+> [!NOTE]
+> When editing Yaml files, make sure you follow the YAML code indent standards.
+>
+> If the syntax is not correct, the changes will not be applied.
 
 Be sure to update the following:
 
@@ -101,7 +104,7 @@ Partition the drive
 ```
 lsblk
 ```
-- If you see more than one partition under the disk, proceed to remove them with `cfdisk` and create a single partition in their place. Don't worry about the filesystem yet
+- If you see more than one partition under the disk, proceed to remove them with `cfdisk` and create a single partition in their place. Don't worry about the filesystem yet.
 ```
 sudo cfdisk /dev/sdX
 ```
@@ -133,7 +136,7 @@ sudo blkid /dev/sdX#
 
 ### Mount the partition
 
-Create a mount point
+Create a mount point. This example uses a folder named `usb1` but this can be changed based on your preference.
 ```
 sudo mkdir -p /mnt/usb1
 ```
@@ -149,6 +152,7 @@ UUID=[UUID] /mnt/usb1 ext4 defaults,nofail,noatime 0 0
 ```
 
 - Substitute the `[UUID]`value for the one from `sudo blkid /dev/sdX#`
+- Substitute `usb1` with your path for the mountpoint
 
 Reload systemd
 ```
