@@ -142,11 +142,10 @@ Click `Go to Settings` to configure your local environment
 ### Updates
 Keeping images up-to-date
 
-<!-- Method may be changing after new 'pull images and restart stack' option is added -->
 - On the Containers tab, click `Check for updates` to see if there are any image updates available
-- If updates are available go to the Stacks tab, under Actions for your stack click the square `Stop` button and confirm
-- Back on the Containers tab, click `Update all` and wait for the images to update
-- Back to on the Stacks tab, under Actions click the `Play` button to start the stack and wait for it to finish
+- If updates are available go to the Stacks tab
+- Under Actions for your stack click the Rocket icon and check `Pull images` and `Force recreate` then click `Deploy`
+  - Wait a minute for the containers to update and start
 - After all the containers are back up, go to the Images tab then click `Prune unused` and confirm
   - This removes the old images to save disk space on the server
 - Keeping images up-to-date is necessary for containers like Prowlarr and Flaresolverr to ensure they continue functioning properly
@@ -473,7 +472,7 @@ Setup Intro Skipper
   - Repository URL: `https://intro-skipper.org/manifest.json`
   - Click `Add`
 - Navigate back to plugins and select `Available` in the top left
-- Locate `Intro Skipper`
+- Refresh the page and locate `Intro Skipper`
 - Open the plugin page and select `Install` and `Install` again
 - Navigate back to the Dashboard and select `Restart` to restart Jellyfin
 - Wait a minute and refresh the page, Intro-Skipper should be working now
@@ -1244,6 +1243,14 @@ Configure Blacklist Sync
 https://cleanuparr.pages.dev/static/blacklist
 ```
 - Click `Save Settings`
+
+<!-- Not sure if needed
+Configure Seeker
+
+- Settings > Seeker
+- Set "Search Interval" to `30 minutes`
+- Click `Save Settings`
+-->
 
 ## Seerr
 Port: `5055`
