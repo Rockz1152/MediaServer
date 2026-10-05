@@ -267,5 +267,5 @@ services:
     ports:
       - 445:445
     volumes:
-      - ${DATA_DIR}:/storage
+      - ${DATA_DIR}:/shared
     restart: unless-stopped
